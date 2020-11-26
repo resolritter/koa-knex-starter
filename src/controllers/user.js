@@ -14,12 +14,14 @@ module.exports.post = async function (ctx) {
   const {
     body: { user },
   } = ctx.request
+
   await validateUser(user, {
     abortEarly: false,
     context: { validatePassword: true },
   })
 
   ctx.body = { user: omit(withJWT(user), ["password"]) }
+  ctx.response.status = 201
 }
 
 module.exports.put = async function (ctx) {
@@ -30,7 +32,7 @@ module.exports.put = async function (ctx) {
   } = ctx.request
   const opts = {
     abortEarly: false,
-    context: { validatePassword: fields.password },
+    context: { validatePassword: !!fields.password },
   }
 
   const user = Object.assign({}, ctx.state.user, fields)
@@ -46,4 +48,5 @@ module.exports.put = async function (ctx) {
   await db("users").where({ id: user.id }).update(user)
 
   ctx.body = { user: omit(withJWT(user), ["password"]) }
+  ctx.response.status = 200
 }
