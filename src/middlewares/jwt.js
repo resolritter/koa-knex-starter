@@ -2,7 +2,7 @@ const koaJwt = require("koa-jwt")
 const config = require("config")
 
 module.exports = koaJwt({
-  getToken(ctx, opts) {
+  getToken(ctx) {
     const { authorization } = ctx.header
 
     if (authorization && authorization.split(" ")[0] === "Bearer") {
