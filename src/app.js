@@ -15,12 +15,17 @@ const { allowedMethods } = require("./constants")
 
 const app = new Koa()
 app.proxy = true
+
 app.keys = [config.get("secret")]
 
 app.use(responseTime())
+
 app.use(xRequestId({ inject: true }, app))
+
 app.use(logger())
+
 app.use(helmet())
+
 app.use(
   cors({
     origin: "*",
