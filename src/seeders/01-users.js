@@ -24,16 +24,6 @@ const getUsers = function () {
 }
 
 module.exports.seed = async function (knex) {
-  if (process.env.NODE_ENV === "production") {
-    await knex("users")
-      .whereIn(
-        "email",
-        users.map((u) => u.email),
-      )
-      .del()
-  } else {
-    await knex("users").del()
-  }
-
+  await knex("users").del()
   return knex("users").insert(getUsers())
 }

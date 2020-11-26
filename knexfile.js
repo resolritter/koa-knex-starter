@@ -4,8 +4,9 @@ const config = require("config")
 const fs = require("fs")
 
 const dbDataDir = "db"
+const dbClient = config.get("db.client")
 
-if (config.get("db.client") === "sqlite3") {
+if (dbClient === "sqlite3") {
   try {
     fs.mkdirSync(dbDataDir)
   } catch (err) {
@@ -15,13 +16,10 @@ if (config.get("db.client") === "sqlite3") {
   }
 }
 
-const dbClient = config.get("db.client")
-const dbConnection = config.has("db.connection") && config.get("db.connection")
-
-const options = {
+module.exports = {
   client: dbClient,
-  connection: dbConnection || {
-    filename: `${dbDataDir}/dev.sqlite3`,
+  connection: {
+    filename: `${dbDataDir}/${config.get("db.name") ?? "dev"}.sqlite3`,
   },
   migrations: {
     directory: "src/migrations",
@@ -33,23 +31,3 @@ const options = {
   },
   useNullAsDefault: dbClient === "sqlite3",
 }
-
-const configs = {
-  development: Object.assign({}, options),
-
-  test: Object.assign({}, options, {
-    connection: dbConnection || {
-      filename: `${dbDataDir}/test.sqlite3`,
-    },
-  }),
-
-  production: Object.assign({}, options, {
-    connection: dbConnection || {
-      filename: `${dbDataDir}/prod.sqlite3`,
-    },
-  }),
-}
-
-Object.assign(configs, configs[process.env.NODE_ENV])
-
-module.exports = configs

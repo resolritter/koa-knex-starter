@@ -23,7 +23,6 @@ NODE_ENV = development
 PORT = 3000
 SECRET = secret
 DB_CLIENT = sqlite3
-#DB_CONNECTION = postgres://user:password@localhost:5432/db_name
 ```
 
 you can just copy `.example-env`
@@ -37,8 +36,6 @@ you can just copy `.example-env`
 `SECRET` - custom secret for generating passwords. `secret` by default
 
 `DB_CLIENT` - database to use. `pg` - postgress or `sqlite3`. `sqlite3` by default
-
-`DB_CONNECTION` - db connection string for `postgress` database.
 
 ## Fixtures (optional)
 
