@@ -1,11 +1,11 @@
 {
-  "name": "koa-knex-realworld-example",
+  "name": "koa_knex_starter",
   "version": "1.0.0",
-  "description": "conduit on koa with knex",
-  "main": "src/bin/server",
-  "repository": "git@github.com:gothinkster/koa-knex-realworld-example.git",
-  "author": "Dmitrii Solovev <dimonnwc3@gmail.com>",
-  "license": "ISC",
+  "description": "koa_knex_starter",
+  "main": "src/main.js",
+  "repository": "git@github.com:resolritter/koa_knex_starter.git",
+  "author": "resolritter",
+  "license": "MIT",
   "scripts": {
     "start": "node src/main",
     "dev": "nodemon src/main",
@@ -21,13 +21,6 @@
   "prettier": {
     "semi": false,
     "trailingComma": "all"
-  },
-  "jest": {
-    "bail": true,
-    "testEnvironment": "node",
-    "coverageReporters": [
-      "text"
-    ]
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
