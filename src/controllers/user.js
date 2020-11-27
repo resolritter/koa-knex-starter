@@ -1,52 +1,49 @@
 const { omit } = require("lodash")
 
+const fs = require("fs")
 const db = require("../db")
 const { withJWT, hashPassword } = require("../auth")
-const validateUser = require("../validators/user")
+const { putValidator, postValidator } = require("../validators/user")
 
 module.exports.get = async function (ctx) {
-  const user = withJWT(ctx.state.user)
-
-  ctx.body = { user }
+  ctx.body = ctx.state.user
+  ctx.response.status = 200
 }
 
 module.exports.post = async function (ctx) {
-  const {
-    body: { user },
-  } = ctx.request
+  const { body: user } = ctx.request
 
-  await validateUser(user, {
+  await postValidator.validate(user, {
     abortEarly: false,
     context: { validatePassword: true },
   })
 
-  ctx.body = { user: omit(withJWT(user), ["password"]) }
+  user.password = await hashPassword(user.password)
+
+  await db("users").insert(user)
+
+  ctx.body = omit(withJWT(user), ["password"])
   ctx.response.status = 201
 }
 
 module.exports.put = async function (ctx) {
-  const {
-    body: {
-      user: { fields },
-    },
-  } = ctx.request
-  const opts = {
+  const { body } = ctx.request
+
+  const user = Object.assign({}, ctx.state.user, body)
+
+  if (body.password) {
+    user.password = await hashPassword(body.password)
+  }
+
+  user.updated_at = new Date().toISOString()
+
+  await putValidator.validate(user, {
     abortEarly: false,
-    context: { validatePassword: !!fields.password },
-  }
-
-  const user = Object.assign({}, ctx.state.user, fields)
-
-  if (fields.password) {
-    user.password = await hashPassword(user.password)
-  }
-
-  user.updatedAt = new Date().toISOString()
-
-  await validateUser(user, opts)
+    context: { validatePassword: !!body.password },
+  })
 
   await db("users").where({ id: user.id }).update(user)
 
-  ctx.body = { user: omit(withJWT(user), ["password"]) }
+  ctx.body = omit(withJWT(user), ["password"])
   ctx.response.status = 200
 }

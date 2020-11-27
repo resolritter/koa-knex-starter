@@ -15,8 +15,9 @@
     "db:currentVersion": "knex migrate:currentVersion",
     "lint": "eslint \"**/*.js\"",
     "format": "prettier --write \"**/*.js\"",
-    "test": "jest --coverage --verbose",
-    "test:watch": "jest --watch"
+    "test": "node -r ./env/integrationTest.js ./node_modules/.bin/jest --verbose",
+    "test:review": "jest --updateSnapshot",
+    "test:watch": "npm run test -- --watch"
   },
   "prettier": {
     "semi": false,

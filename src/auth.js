@@ -1,4 +1,3 @@
-const config = require("config")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 const { pick } = require("lodash")
@@ -15,7 +14,7 @@ module.exports.withJWT = function (user = {}) {
       {
         sub: pick(user, ["id", "email", "username"]),
       },
-      config.get("secret"),
+      process.env.SECRET,
       {
         expiresIn: "7d",
       },

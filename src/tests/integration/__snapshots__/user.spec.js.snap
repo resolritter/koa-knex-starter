@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tests the user API Creates a user and updates it 1`] = `
+Object {
+  "email": "user1@user.com",
+}
+`;
+
+exports[`Tests the user API Creates a user and updates it 2`] = `
+Object {
+  "email": "user1@user.com",
+  "id": 1,
+}
+`;
+
+exports[`Tests the user API Creates a user and updates it 3`] = `
+Object {
+  "email": "updated_user1@user.com",
+  "id": 1,
+}
+`;

@@ -1,76 +1,71 @@
 const faker = require("faker")
 const fetch = require("node-fetch")
 const cp = require("child_process")
-const path = require("child_process")
+const path = require("path")
 
-const portManager = path.resolve("../../../scripts/port_manager.js")
-const serverLauncher = path.resolve("../../main.js")
+const { portAcquisitionHost, serverPath } = require("./lib/constants")
 const { getUnique } = require("../../mocks/utils")
+const { initLibUser, snapshot } = require("./lib/user")
+
+const createUserAndUpdate = async function () {
+  const { createUser, updateUser, loginWithUser } = initLibUser(...arguments)
+  let user
+
+  user = await createUser()
+  snapshot(user)
+
+  user = await loginWithUser(user)
+  snapshot(user)
+
+  user = await updateUser({
+    ...user,
+    email: `updated_${user.email}`,
+  })
+  snapshot(user)
+}
 
 describe("Tests the user API", function () {
-  const tests = [
-    [
-      "Creates a user and updates it",
-      async function () {
-        let res, user
-
-        res = await fetch("/user", {
-          method: "POST",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-          }),
-        })
-        expect(res.status).toBe(201)
-
-        user = await res.body.json()
-        expect(user.email).not.toBeUndefined()
-        expect(user.email.length).not.toBe(1)
-
-        let email
-        while (true) {
-          email = getUnique(faker.internet.email)
-          if (email != user.email) {
-            break
-          }
-        }
-
-        res = await fetch("/user", {
-          method: "PUT",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-          }),
-        })
-
-        expect(res.status).toBe(201)
-
-        user = await res.body.json()
-        expect(user).not.toBeUndefined()
-        expect(Object.keys(user)).toBeGreaterThan(0)
-      },
-    ],
-  ]
+  const tests = [["Creates a user and updates it", createUserAndUpdate]]
 
   tests.map(function ([title, test]) {
     it(title, async function () {
-      let port, serverLauncher
+      let port, serverProc, isFinished
       try {
-        port = cp.execSync(`${portManager} get`)
-        serverLauncher = cp.execSync(
-          `DB_NAME=${port} DB_PORT=${port} node '${serverLauncher}'`,
+        const acquireResponse = await fetch(
+          `${portAcquisitionHost}/acquirePort`,
+          {
+            method: "GET",
+            mode: "cors",
+          },
         )
-        await test()
+        expect(acquireResponse.status).toBe(201)
+        port = await acquireResponse.text()
+
+        serverProc = cp.spawn("node", [serverPath, port], {
+          cwd: path.join(path.dirname(serverPath), ".."),
+        })
+        await new Promise(function (resolve) {
+          serverProc.stdout.on("data", function (data) {
+            resolve()
+            if (!isFinished) {
+              console.log("SERVER", data.toString())
+            }
+          })
+          serverProc.stderr.on("data", function (err) {
+            err = err.toString()
+            if (!isFinished) {
+              console.log(err)
+              throw new Error("SERVER", err)
+            }
+          })
+        })
+
+        await test({ host: `http://127.0.0.1:${port}` })
       } finally {
-        if (port) {
-          cp.execSync(`${portManager} free ${port}`)
+        if (serverProc) {
+          serverProc.kill()
         }
+        isFinished = true
       }
     })
   })

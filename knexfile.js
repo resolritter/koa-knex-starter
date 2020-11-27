@@ -1,25 +1,14 @@
 require("./src/setup")
 
-const config = require("config")
 const fs = require("fs")
 
 const dbDataDir = "db"
-const dbClient = config.get("db.client")
+const dbClient = process.env.DB_CLIENT
 
-if (dbClient === "sqlite3") {
-  try {
-    fs.mkdirSync(dbDataDir)
-  } catch (err) {
-    if (err.code !== "EEXIST") {
-      throw err
-    }
-  }
-}
-
-module.exports = {
+const defaultConfig = {
   client: dbClient,
   connection: {
-    filename: `${dbDataDir}/${config.get("db.name") ?? "dev"}.sqlite3`,
+    filename: `${dbDataDir}/dev.sqlite3`,
   },
   migrations: {
     directory: "src/migrations",
@@ -31,3 +20,33 @@ module.exports = {
   },
   useNullAsDefault: dbClient === "sqlite3",
 }
+
+const customConfigs = {
+  integrationTest: {
+    client: "sqlite3",
+    connection: ":memory:",
+    pool: {
+      min: 1,
+      max: 1,
+    },
+  },
+}
+
+const finalConfig = Object.assign(
+  {},
+  defaultConfig,
+  customConfigs[process.env.NODE_ENV],
+)
+
+if (finalConfig.client === "sqlite3") {
+  try {
+    fs.mkdirSync(dbDataDir)
+  } catch (err) {
+    if (err.code !== "EEXIST") {
+      throw err
+    }
+  }
+}
+
+fs.writeFileSync("/tmp/debug", JSON.stringify(finalConfig))
+module.exports = finalConfig

@@ -4,11 +4,11 @@ const isISO8601 = require("validator/lib/isISO8601")
 module.exports = yup
   .object()
   .shape({
-    createdAt: yup
+    created_at: yup
       .string()
       .required()
       .test({
-        name: "createdAt",
+        name: "created_at",
         message: "${path} must be valid ISO8601 date", // eslint-disable-line
         test: (value) =>
           value ? isISO8601(new Date(value).toISOString()) : true,
@@ -20,11 +20,11 @@ module.exports = yup
       })
       .default(() => new Date().toISOString()),
 
-    updatedAt: yup
+    updated_at: yup
       .string()
       .required()
       .test({
-        name: "updatedAt",
+        name: "updated_at",
         message: "${path} must be valid ISO8601 date", // eslint-disable-line
         test: (value) =>
           value ? isISO8601(new Date(value).toISOString()) : true,

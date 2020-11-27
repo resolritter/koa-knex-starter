@@ -4,26 +4,27 @@ const http = require("http")
 const stoppable = require("stoppable")
 const pEvent = require("p-event")
 const util = require("util")
-const config = require("config")
 
 const logger = require("./logger")
 const db = require("./db")
 const app = require("./app")
 
 async function main() {
-  const host = config.get("server.host")
-  const port = config.get("server.port")
+  const host = process.env.HOST
+  const port = process.env.PORT
   let server
 
   try {
     await db.select(db.raw("1"))
-    logger.debug("Database connected")
+    logger.debug("Database connected. Running migrations...")
+    await db.migrate.latest()
 
     server = stoppable(http.createServer(app.callback()), 7000)
     server.listen(port, host)
     server.stop = util.promisify(server.stop)
     await pEvent(server, "listening")
 
+    console.log("READY!")
     logger.debug(`Server is listening on: ${host}:${port}`)
 
     await Promise.race([

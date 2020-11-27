@@ -35,7 +35,7 @@ module.exports = {
     es6: true,
     jest: true,
   },
-  parserOptions: { ecmaVersion: 2020 },
+  parserOptions: { ecmaVersion: 2021 },
   plugins: ["unused-imports", "simple-import-sort", "jest"],
   ignorePatterns: ["package-lock.json", "package.json"],
   rules: {

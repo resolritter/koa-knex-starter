@@ -8,7 +8,7 @@ const allowedMethods = allowedMethodsRaw.map(function (m) {
 module.exports.setupRoutes = function ({
   route,
   controller,
-  endpointsMiddlewares,
+  endpointsMiddlewares = {},
 }) {
   const router = new Router()
 
@@ -25,5 +25,5 @@ module.exports.setupRoutes = function ({
     }
   }
 
-  return router.routes
+  return router.routes()
 }

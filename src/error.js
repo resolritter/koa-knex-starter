@@ -1,5 +1,8 @@
 const http = require("http")
 const { defaultTo } = require("lodash")
+const { ValidationError } = require("yup")
+
+module.exports.ValidationError = ValidationError
 
 class AuthenticationError extends Error {
   constructor(message = http.STATUS_CODES[401]) {

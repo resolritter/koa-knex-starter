@@ -1,31 +1,30 @@
-const _ = require("lodash")
+const { omit } = require("lodash")
 
 const db = require("../db")
 const { ValidationError } = require("../error")
 const { withJWT, comparePassword } = require("../auth")
 
 module.exports.post = async function (ctx) {
-  const {
-    body: { user: payload },
-  } = ctx.request
+  const { body } = ctx.request
 
   for (const field of ["email", "password"]) {
     ctx.assert(
-      payload[field],
+      body[field],
       400,
       new ValidationError(["malformed request"], "", `missing ${field}`),
     )
   }
 
-  const user = await db("users").first().where({ email: payload.email })
+  const user = await db("users").first().where({ email: body.email })
 
   ctx.assert(user, 404, new ValidationError(["is invalid"], "", "email"))
 
+  console.log(body.password, user.password)
   ctx.assert(
-    await comparePassword(payload.password, user.password),
+    await comparePassword(body.password, user.password),
     422,
     new ValidationError(["is invalid"], "", "password"),
   )
 
-  ctx.body = { user: _.omit(withJWT(user), ["password"]) }
+  ctx.body = omit(withJWT(user), ["password"])
 }

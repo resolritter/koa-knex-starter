@@ -1,7 +1,9 @@
 require("dotenv").config()
 
-if (!process.env.NODE_ENV) {
-  process.env.NODE_ENV = "development"
-}
-
-require("config")
+process.env.NODE_ENV ??= "development"
+process.env.HOST ??= "0.0.0.0"
+process.env.PORT = process.argv[2] ?? process.env.PORT ?? 3000
+process.env.APP_VERSION ??= "0.0.1"
+process.env.LOG_LEVEL ??= "info"
+process.env.SECRET ??= "secret"
+process.env.DB_CLIENT = "sqlite3"
