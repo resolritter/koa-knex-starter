@@ -1,8 +1,6 @@
 const fetch = require("node-fetch")
 const { omit } = require("lodash")
 
-const { getRandomUser } = require("../../../mocks/user")
-
 const sanitizeForSnapshots = function (user) {
   return omit(user, ["token", "password", "updated_at", "created_at"])
 }
