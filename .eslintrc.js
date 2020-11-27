@@ -64,7 +64,7 @@ module.exports = {
       "error",
       {
         groups: [
-          ["^react(\\/.*|$)", nodeModulesImportRegex],
+          [nodeModulesImportRegex],
           [rootModulesImportRegex],
           [
             "^\\.$",
