@@ -1,42 +1,26 @@
-# Server
+# Introduction
 
-## Installation
+This project was started from [koa-knex-realworld-example](https://github.com/gothinkster/koa-knex-realworld-example), although it ended up being almost entirely refactored due to messy module nuances and poor code quality.
 
-1. Instal [Node.JS](https://nodejs.org/en/download/package-manager/) latest version
-2. Clone this repo
-3. Install dependencies, just run in project folder: `npm i` or `yarn`
+# Running
 
-## Usage
+The database is set to `sqlite3` as default, thus you won't need any external
+services in order to run the app.
 
-1. run `npm start` to start server
+## Seeding
 
-## Testing
-
-1. run `npm test` for tests
-
-## Server Configuration (optional)
-
-You can use `.env` file, to configure project like this:
+If you'd like to seed the database before your first run, use the following commands
 
 ```
-NODE_ENV = development
-PORT = 3000
-SECRET = secret
-DB_CLIENT = sqlite3
+npm run db:migrate
+npm run db:seed
 ```
 
-you can just copy `.example-env`
+## Server
 
-## Variables description
+- `npm start` will run the server in a production environment
+- `npm dev` will run the server in development environment
 
-`NODE_ENV` - specify env: development/production/test. `development` by default
+# Environment configuration (optional)
 
-`NODE_PORT` - specify port: `3000` by default
-
-`SECRET` - custom secret for generating passwords. `secret` by default
-
-`DB_CLIENT` - database to use. `pg` - postgress or `sqlite3`. `sqlite3` by default
-
-## Fixtures (optional)
-
-1. load fixtures: `npm run db:load` (it uses settings from `.env`). Don't forget to set `NODE_ENV`.
+Refer to [dotenv](https://www.npmjs.com/package/dotenv)'s docs

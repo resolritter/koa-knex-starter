@@ -9,15 +9,13 @@
   "scripts": {
     "start": "node src/main",
     "dev": "nodemon src/main",
-    "db:load": "knex seed:run",
+    "db:seed": "knex seed:run",
     "db:migrate": "knex migrate:latest",
-    "db:rollback": "knex migrate:rollback",
-    "db:currentVersion": "knex migrate:currentVersion",
     "lint": "eslint \"**/*.js\"",
     "format": "prettier --write \"**/*.js\"",
-    "test": "node -r ./env/integrationTest.js ./node_modules/.bin/jest --verbose",
-    "test:review": "jest --updateSnapshot",
-    "test:watch": "npm run test -- --watch"
+    "integration": "node -r ./env/integrationTest.js ./node_modules/.bin/jest --verbose",
+    "integration:updateSnapshot": "npm run integration -- --updateSnapshot",
+    "integration:watch": "npm run integration -- --watch"
   },
   "prettier": {
     "semi": false,
