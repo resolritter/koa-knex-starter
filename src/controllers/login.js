@@ -3,6 +3,7 @@ const { omit } = require("lodash")
 const db = require("../db")
 const { ValidationError } = require("../error")
 const { withJWT, comparePassword } = require("../auth")
+const { usersTable } = require("../constants")
 
 module.exports.POST = async function (ctx) {
   const { body } = ctx.request
@@ -15,7 +16,7 @@ module.exports.POST = async function (ctx) {
     )
   }
 
-  const user = await db("users").first().where({ email: body.email })
+  const user = await db(usersTable).first().where({ email: body.email })
 
   ctx.assert(user, 404, new ValidationError(["is invalid"], "", "email"))
 

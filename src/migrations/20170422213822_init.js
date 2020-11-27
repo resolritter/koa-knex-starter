@@ -1,7 +1,7 @@
-const tableName = "users"
+const { usersTable } = require("../constants")
 
 exports.up = function (knex) {
-  return knex.schema.createTable(tableName, function (table) {
+  return knex.schema.createTable(usersTable, function (table) {
     table.increments("id").primary().notNullable()
     table.string("email").unique().notNullable()
     table.string("password").notNullable()
@@ -10,5 +10,5 @@ exports.up = function (knex) {
 }
 
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists(tableName)
+  return knex.schema.dropTableIfExists(usersTable)
 }
