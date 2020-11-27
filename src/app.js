@@ -9,6 +9,7 @@ const bodyParser = require("koa-bodyparser")
 const jwtMiddleware = require("./middlewares/jwt")
 const pagerMiddleware = require("./middlewares/pager")
 const userMiddleware = require("./middlewares/user")
+const errorMiddleware = require("./middlewares/user")
 const { allowedMethods } = require("./constants")
 
 const app = new Koa()
@@ -39,6 +40,7 @@ app.use(
     enableTypes: ["json"],
   }),
 )
+app.use(errorMiddleware)
 app.use(userMiddleware)
 app.use(pagerMiddleware)
 

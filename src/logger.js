@@ -4,7 +4,6 @@ const os = require("os")
 module.exports = pino(
   {
     level: process.env.LOG_LEVEL ?? "info",
-    destination: pino.destination("./my-file"),
     serializers: {
       req: (req) => {
         return pino.stdSerializers.req(req)
@@ -26,5 +25,5 @@ module.exports = pino(
     },
     prettifier: require("pino-colada"),
   },
-  //pino.destination("/tmp/log"),
+  //pino.destination("/var/log"),
 )

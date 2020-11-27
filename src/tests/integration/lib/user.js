@@ -40,7 +40,7 @@ module.exports.initLibUser = function ({ host }) {
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Token ${user.token}`,
+          Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify(omit(user, ["token"])),
       })
