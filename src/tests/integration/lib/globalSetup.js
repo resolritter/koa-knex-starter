@@ -6,11 +6,11 @@ const {
   portAcquisitionHostPort,
   portAcquisitionDaemonPath,
 } = require("./constants")
-const teardown = require("./teardown")
+const globalTeardown = require("./globalTeardown.js")
 
 module.exports = async function () {
   for (const ev of ["SIGINT", "SIGHUP", "SIGQUIT", "SIGTERM", "exit"]) {
-    process.on(ev, teardown)
+    process.on(ev, globalTeardown)
   }
   console.log("\nSETUP: Setting up port acquisiton daemon...")
   await new Promise(function (resolve, reject) {

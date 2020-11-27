@@ -7,8 +7,8 @@ switch (process.env.NODE_ENV) {
     const root = path.resolve("./src/tests/integration")
 
     conf.roots = [root]
-    conf.globalSetup = path.join(root, "./lib/setup")
-    conf.globalTeardown = path.join(root, "./lib/teardown")
+    conf.globalSetup = path.join(root, "./lib/globalSetup")
+    conf.globalTeardown = path.join(root, "./lib/globalTeardown")
     break
   }
   default:
