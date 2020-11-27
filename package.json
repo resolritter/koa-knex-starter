@@ -41,6 +41,7 @@
     "p-event": "^4.2.0",
     "pino": "^6.7.0",
     "pino-colada": "^2.1.0",
+    "port_acquisition_server": "git+https://github.com/resolritter/port_acquisition_server.git",
     "qs": "^6.9.4",
     "request": "^2.88.0",
     "request-promise": "^4.2.0",
