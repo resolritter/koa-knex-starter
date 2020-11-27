@@ -21,6 +21,8 @@ npm run db:seed
 - `npm start` will run the server in a production environment
 - `npm dev` will run the server in development environment
 
-# Environment configuration (optional)
+# Environment configuration
 
-Refer to [dotenv](https://www.npmjs.com/package/dotenv)'s docs
+Refer to [dotenv](https://www.npmjs.com/package/dotenv)'s docs. By default, the
+environment will be loaded by **dotenv** and its missing defaults are set in
+[setup.js](./src/setup.js).
