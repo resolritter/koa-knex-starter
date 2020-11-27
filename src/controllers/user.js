@@ -5,12 +5,12 @@ const db = require("../db")
 const { withJWT, hashPassword } = require("../auth")
 const { putValidator, postValidator } = require("../validators/user")
 
-module.exports.get = async function (ctx) {
+module.exports.GET = async function (ctx) {
   ctx.body = ctx.state.user
   ctx.response.status = 200
 }
 
-module.exports.post = async function (ctx) {
+module.exports.POST = async function (ctx) {
   const { body: user } = ctx.request
 
   await postValidator.validate(user, {
@@ -26,7 +26,7 @@ module.exports.post = async function (ctx) {
   ctx.response.status = 201
 }
 
-module.exports.put = async function (ctx) {
+module.exports.PUT = async function (ctx) {
   const { body } = ctx.request
 
   const user = Object.assign({}, ctx.state.user, body)

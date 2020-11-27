@@ -4,7 +4,7 @@ const db = require("../db")
 const { ValidationError } = require("../error")
 const { withJWT, comparePassword } = require("../auth")
 
-module.exports.post = async function (ctx) {
+module.exports.POST = async function (ctx) {
   const { body } = ctx.request
 
   for (const field of ["email", "password"]) {
