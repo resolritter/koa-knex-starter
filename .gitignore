@@ -12,6 +12,7 @@ coverage
 
 # temporary
 db
+/src/tests/integration/.portAcquisitionAddress
 
 # local config
 .env

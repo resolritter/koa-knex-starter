@@ -1,14 +1,20 @@
 const path = require("path")
+const fs = require("fs")
 const cp = require("child_process")
 const fetch = require("node-fetch")
-const { portAcquisitionHost, serverPath } = require("./constants")
+
+const { serverLauncher, portAcquisitionAddressFile } = require("./constants")
+
+const portAcquisitionAddress = fs
+  .readFileSync(portAcquisitionAddressFile)
+  .toString()
 
 module.exports.serviceOrchestrationWrapper = function (test) {
   return async function () {
     let port, serverProc, isFinished
     try {
       const acquireResponse = await fetch(
-        `${portAcquisitionHost}/acquirePort`,
+        `${portAcquisitionAddress}/acquirePort`,
         {
           method: "GET",
           mode: "cors",
@@ -18,7 +24,7 @@ module.exports.serviceOrchestrationWrapper = function (test) {
       port = await acquireResponse.text()
       expect(port).toBeDefined()
 
-      serverProc = cp.spawn("node", [serverPath, port])
+      serverProc = cp.spawn("node", [serverLauncher, port])
       await new Promise(function (resolve) {
         serverProc.stdout.on("data", function (data) {
           resolve()
