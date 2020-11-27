@@ -19,7 +19,6 @@ module.exports.post = async function (ctx) {
 
   ctx.assert(user, 404, new ValidationError(["is invalid"], "", "email"))
 
-  console.log(body.password, user.password)
   ctx.assert(
     await comparePassword(body.password, user.password),
     422,
