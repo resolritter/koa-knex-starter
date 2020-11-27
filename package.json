@@ -1,9 +1,9 @@
 {
-  "name": "koa_knex_starter",
+  "name": "koa-knex-starter",
   "version": "1.0.0",
-  "description": "koa_knex_starter",
+  "description": "Starter template for a web service based on Koa and Knex",
   "main": "src/main.js",
-  "repository": "git@github.com:resolritter/koa_knex_starter.git",
+  "repository": "https://github.com/resolritter/koa_knex_starter",
   "author": "resolritter",
   "license": "MIT",
   "scripts": {
