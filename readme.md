@@ -1,6 +1,31 @@
 # Introduction
 
-This project was started from [koa-knex-realworld-example](https://github.com/gothinkster/koa-knex-realworld-example), although it ended up being almost entirely refactored due to messy module nuances and poor code quality.
+This project's initial code comes from
+[koa-knex-realworld-example](https://github.com/gothinkster/koa-knex-realworld-example),
+although it ended up being almost entirely refactored and some parts were removed due to
+messy module nuances and poor code quality.
+
+This repository is meant to be a barebones project which lays out the foundations for building a real application.
+Instead of having the full "real-world" use-case as in the aforementioned project, it only includes the `login`
+and `user` controllers because that's commonplace for most applications; it also helps to shed some light
+in how the module structure is organized.
+
+# Features
+
+## Implemented
+
+- User endpoint and resource
+- Database integration
+- Authentication endpoint leveraging JWT
+- Integration tests
+- Error-handling middleware
+- Logging capabilities
+- Linters and formatters all configured
+- Pre-commit hooks infrastructure
+
+## TODO
+
+- Have API errors also be tested (e.g. if a field is missing, check if the error message correctly informs it)
 
 # Running
 
