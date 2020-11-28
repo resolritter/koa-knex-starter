@@ -1,5 +1,6 @@
-const { formatValidationError, ValidationError } = require("../errors")
 const { defaultTo } = require("lodash")
+
+const { formatValidationError, ValidationError } = require("../errors")
 
 module.exports = async function (ctx, next) {
   try {

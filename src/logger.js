@@ -1,5 +1,6 @@
-const pino = require("pino")
 const os = require("os")
+
+const pino = require("pino")
 
 module.exports = pino(
   {

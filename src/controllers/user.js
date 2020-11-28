@@ -1,6 +1,5 @@
 const { omit } = require("lodash")
 
-const fs = require("fs")
 const db = require("../db")
 const { withJWT, hashPassword } = require("../auth")
 const { putValidator, postValidator } = require("../validators/user")

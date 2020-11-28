@@ -1,4 +1,3 @@
-const path = require("path")
 const { spawn } = require("child_process")
 const assert = require("assert")
 const fs = require("fs")
@@ -20,9 +19,6 @@ module.exports = async function () {
       stdio: "pipe",
     })
     global.PORT_ACQUISITION_SERVER = daemon
-    const setAddress = function (addr) {
-      global.PORT_ACQUISITION_ADDRESS = addr
-    }
 
     const resolutionRef = {}
     daemon.stdout.on("data", function (output) {

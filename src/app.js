@@ -45,6 +45,7 @@ app.use(userMiddleware)
 app.use(pagerMiddleware)
 
 const router = require("./router")
+
 app.use(router.routes())
 app.use(router.allowedMethods())
 

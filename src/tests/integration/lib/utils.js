@@ -1,6 +1,6 @@
-const path = require("path")
 const fs = require("fs")
 const cp = require("child_process")
+
 const fetch = require("node-fetch")
 
 const { serverLauncher, portAcquisitionAddressFile } = require("./constants")

@@ -1,9 +1,10 @@
 require("./setup")
 
 const http = require("http")
+const util = require("util")
+
 const stoppable = require("stoppable")
 const pEvent = require("p-event")
-const util = require("util")
 
 const logger = require("./logger")
 const db = require("./db")

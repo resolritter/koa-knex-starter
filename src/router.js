@@ -1,5 +1,6 @@
-const Router = require("koa-router")
 const assert = require("assert")
+
+const Router = require("koa-router")
 
 const { allowedMethods } = require("./constants")
 const authMiddleware = require("./middlewares/auth")
