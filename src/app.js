@@ -1,8 +1,6 @@
 const Koa = require("koa")
-const responseTime = require("koa-response-time")
 const helmet = require("koa-helmet")
 const logger = require("koa-logger")
-const xRequestId = require("koa-x-request-id")
 const cors = require("kcors")
 const bodyParser = require("koa-bodyparser")
 
@@ -14,10 +12,6 @@ const { allowedMethods } = require("./constants")
 
 const app = new Koa()
 app.proxy = true
-
-app.use(responseTime())
-
-app.use(xRequestId({ inject: true }, app))
 
 app.use(logger())
 
