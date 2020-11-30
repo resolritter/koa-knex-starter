@@ -48,5 +48,4 @@ if (finalConfig.client === "sqlite3") {
   }
 }
 
-fs.writeFileSync("/tmp/debug", JSON.stringify(finalConfig))
 module.exports = finalConfig
