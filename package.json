@@ -16,8 +16,7 @@
     "lint:fix": "npm run lint -- --fix",
     "fix": "npm run lint:fix && npm run format",
     "integration": "node -r ./env/integrationTest.js ./node_modules/.bin/jest --verbose",
-    "integration:updateSnapshot": "npm run integration -- --updateSnapshot",
-    "integration:watch": "npm run integration -- --watch"
+    "integration:updateSnapshot": "npm run integration -- --updateSnapshot"
   },
   "prettier": {
     "semi": false,

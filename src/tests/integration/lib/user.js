@@ -33,7 +33,7 @@ module.exports.initLibUser = function ({ host }) {
       return { ...(await res.json()), password }
     },
     updateUser: async function (user) {
-      const res = await fetch(`${host}/api/user`, {
+      const res = await fetch(`${host}/api/user/${user.id}/edit`, {
         method: "PUT",
         mode: "cors",
         headers: {
