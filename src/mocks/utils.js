@@ -11,8 +11,3 @@ module.exports.getUnique = function (cb) {
   }
   return value
 }
-
-let idCounter = 0
-module.exports.getId = function () {
-  return ++idCounter
-}
