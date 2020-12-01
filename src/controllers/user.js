@@ -7,7 +7,7 @@ const { accountsTable } = require("../constants")
 
 module.exports.GET = async function (ctx) {
   ctx.body = ctx.state.user
-  ctx.response.status = 200
+  ctx.status = 200
 }
 
 module.exports.POST = async function (ctx) {
@@ -23,7 +23,7 @@ module.exports.POST = async function (ctx) {
   await db(accountsTable).insert(user)
 
   ctx.body = omit(withJWT(user), ["password"])
-  ctx.response.status = 201
+  ctx.status = 201
 }
 
 module.exports.PUT = async function (ctx) {
@@ -45,5 +45,5 @@ module.exports.PUT = async function (ctx) {
   await db(accountsTable).where({ id: user.id }).update(user)
 
   ctx.body = omit(withJWT(user), ["password"])
-  ctx.response.status = 200
+  ctx.status = 200
 }
