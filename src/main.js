@@ -38,8 +38,7 @@ const main = async function () {
     server.stop = util.promisify(server.stop)
     await pEvent(server, "listening")
 
-    console.log("READY!")
-    logger.debug(`Server is listening on: ${host}:${port}`)
+    console.log(`Server is listening on: ${host}:${port}`)
 
     await Promise.race([
       ...["SIGINT", "SIGHUP", "SIGTERM"].map((s) =>
