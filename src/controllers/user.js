@@ -3,7 +3,7 @@ const { omit } = require("lodash")
 const db = require("../db")
 const { withJWT, hashPassword } = require("../auth")
 const { putValidator, postValidator } = require("../validators/user")
-const { usersTable } = require("../constants")
+const { accountsTable } = require("../constants")
 
 module.exports.GET = async function (ctx) {
   ctx.body = ctx.state.user
@@ -20,7 +20,7 @@ module.exports.POST = async function (ctx) {
 
   user.password = await hashPassword(user.password)
 
-  await db(usersTable).insert(user)
+  await db(accountsTable).insert(user)
 
   ctx.body = omit(withJWT(user), ["password"])
   ctx.response.status = 201
@@ -42,7 +42,7 @@ module.exports.PUT = async function (ctx) {
     context: { validatePassword: !!body.password },
   })
 
-  await db(usersTable).where({ id: user.id }).update(user)
+  await db(accountsTable).where({ id: user.id }).update(user)
 
   ctx.body = omit(withJWT(user), ["password"])
   ctx.response.status = 200

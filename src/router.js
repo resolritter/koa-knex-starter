@@ -1,26 +1,58 @@
-const assert = require("assert")
-
 const Router = require("koa-router")
 
 const { allowedMethods } = require("./constants")
-const authMiddleware = require("./middlewares/auth")
+const { userAuthMiddleware } = require("./middlewares/auth")
+const controllers = require("./controllers")
+
+const setupOnRouter = function (
+  router,
+  controller,
+  httpMethod,
+  path,
+  endpointsMiddlewares,
+) {
+  const args = [path, controller[httpMethod]]
+  const middleware = endpointsMiddlewares[httpMethod]
+  if (middleware) {
+    args.splice(1, 0, middleware)
+  }
+  router[httpMethod.toLowerCase()](...args)
+}
 
 const getEndpointRouter = function ({
-  path,
+  root,
   controller,
+  fixedPath,
   endpointsMiddlewares = {},
+  idParam = "id",
 }) {
   const router = new Router()
 
-  for (const httpMethod in controller) {
-    assert.ok(allowedMethods.includes(httpMethod))
-
-    const args = [path, controller[httpMethod]]
-    const middleware = endpointsMiddlewares[httpMethod]
-    if (middleware) {
-      args.splice(1, 0, middleware)
+  for (const httpMethod of allowedMethods) {
+    if (!(httpMethod in controller)) {
+      continue
     }
-    router[httpMethod.toLowerCase()](...args)
+
+    setupOnRouter(
+      router,
+      controller,
+      httpMethod,
+      fixedPath ??
+        (httpMethod === "POST"
+          ? root
+          : httpMethod === "PUT"
+          ? `${root}/:${idParam}/edit`
+          : httpMethod === "DELETE"
+          ? `${root}/:${idParam}/delete`
+          : `${root}/:${idParam}`),
+      endpointsMiddlewares,
+    )
+  }
+
+  if (controller.LIST) {
+    setupOnRouter(router, { GET: controller.LIST }, "GET", `${root}s`, {
+      GET: endpointsMiddlewares["LIST"],
+    })
   }
 
   return router.routes()
@@ -30,19 +62,19 @@ const apiRouter = new Router()
 
 apiRouter.use(
   getEndpointRouter({
-    path: "/user",
-    controller: require("./controllers/user"),
+    root: "/user",
+    controller: controllers.user,
     endpointsMiddlewares: {
-      GET: authMiddleware,
-      PUT: authMiddleware,
+      GET: userAuthMiddleware,
+      PUT: userAuthMiddleware,
     },
   }),
 )
 
 apiRouter.use(
   getEndpointRouter({
-    path: "/login",
-    controller: require("./controllers/login"),
+    root: "/login",
+    controller: controllers.login,
   }),
 )
 
