@@ -1,3 +1,1 @@
-require("dotenv").config({
-  path: require("path").join(__dirname, "./integrationTest.env"),
-})
+process.env.NODE_ENV ??= "integrationTest"

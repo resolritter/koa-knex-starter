@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node src/main",
-    "dev": "nodemon src/main",
+    "dev": "node -r ./env/dev.js ./node_modules/.bin/nodemon src/main",
     "db:seed": "knex seed:run",
     "db:migrate": "knex migrate:latest",
     "db:new_migration": "knex migrate:make",

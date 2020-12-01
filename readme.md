@@ -45,6 +45,5 @@ combination of multiple other database commands (check
 
 # Environment configuration
 
-Refer to [dotenv](https://www.npmjs.com/package/dotenv)'s docs. By default, the
-environment will be loaded by **dotenv** and its missing defaults are set in
-[setup.js](./src/setup.js).
+The environment's defaults are set in [setup.js](./src/setup.js). You can
+override the variables there by having a `.env` file at the repository's root.
