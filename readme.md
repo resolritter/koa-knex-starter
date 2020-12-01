@@ -32,14 +32,11 @@ in how the module structure is organized.
 The database is set to `sqlite3` as default, thus you won't need any external
 services in order to run the app.
 
-## Seeding
+## Setting up the datbase
 
-If you'd like to seed the database before your first run, use the following commands
-
-```
-npm run db:migrate
-npm run db:seed
-```
+`npm run db:setup` does everything needed to start from a clean slate. It's a
+combination of multiple other database commands (check
+[package.json](./package.json) for them).
 
 ## Server
 
