@@ -10,10 +10,23 @@ const logger = require("./logger")
 const db = require("./db")
 const app = require("./app")
 
-async function main() {
+const exitWithUsage = function () {
+  console.log("Usage: main.js [port]")
+  process.exit(1)
+}
+
+const main = async function () {
+  let port, server
+  if (process.argv[2]) {
+    port = parseInt(process.argv[2])
+    if (!port) {
+      console.error(`Invalid port '${process.argv[2]}' as argument`)
+      exitWithUsage()
+    }
+  } else {
+    port = process.env.PORT
+  }
   const host = process.env.HOST
-  const port = process.env.PORT
-  let server
 
   try {
     await db.select(db.raw("1"))
